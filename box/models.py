@@ -16,7 +16,7 @@ class CoffeeType(models.Model):
 class CoffeePoint(models.Model):
     title = models.CharField(max_length=64)
     place = models.CharField(max_length=256, blank=True)
-    coffee = models.ManyToManyField(CoffeeType, related_name='points')
+    coffee = models.ManyToManyField(CoffeeType, related_name='points', blank=True)
 
     def __str__(self):
         return f'{self.title} ({self.place})'
@@ -30,8 +30,8 @@ class Order(models.Model):
     )
     coffee = ForeignKey(CoffeeType, on_delete=CASCADE, related_name='orders')
     point = ForeignKey(CoffeePoint, on_delete=CASCADE, related_name='orders')
-    customer = ForeignKey(User, on_delete=CASCADE, related_name='orders')
-    comment = models.CharField(max_length=256, blank=True)
+    # customer = ForeignKey(User)
+    customer = models.CharField(max_length=64)
     created = models.DateTimeField(auto_now_add=True)
     done = models.BooleanField(default=False)
     volume = models.FloatField(choices=VOLUME_CHOICES, default=0.2)
